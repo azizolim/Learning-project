@@ -1,4 +1,5 @@
 ﻿using System;
+using DefaultNamespace;
 using UnityEngine;
 
 
@@ -6,14 +7,11 @@ using UnityEngine;
     public class ActiveZone : MonoBehaviour, IInit<testDelegate>
     {
         private event testDelegate OnTest;
-        
-        
-        
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.TryGetComponent(out IPlayer player))
+            if (other.gameObject.TryGetComponent(out IInteractable interactable))
             {
-                OnTest.Invoke(player.GetPosition());
+                OnTest.Invoke(interactable.GetPosition());
             }
         }
 

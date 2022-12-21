@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class CamController : MonoBehaviour, IInit<movementDelegate>
@@ -15,11 +17,18 @@ public class CamController : MonoBehaviour, IInit<movementDelegate>
 
             if (Physics.Raycast(ray, out hit))
             {
-                _playerMovement.Invoke(hit.point);
+                
+                if(hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
+                {
+                 _playerMovement.Invoke(interactable.GetPosition());   
+                }
+                else
+                {
+                    _playerMovement.Invoke(hit.point);
+                }
             }
         }
     }
-
 
     public void Initialize(movementDelegate @delegate)
     {
